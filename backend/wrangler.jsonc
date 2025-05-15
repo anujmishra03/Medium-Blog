@@ -1,0 +1,52 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "backend",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-05-13",
+
+  // Enable this if you're using Node.js built-ins
+  // "compatibility_flags": [
+  //   "nodejs_compat"
+  // ],
+
+  "vars": {
+    "DATABASE_URL": "",
+    "JWT_SECRET": ""
+  },
+
+  // Uncomment and add your KV namespace if needed
+  // "kv_namespaces": [
+  //   {
+  //     "binding": "MY_KV_NAMESPACE",
+  //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  //   }
+  // ],
+
+  // Uncomment and add your R2 bucket if needed
+  // "r2_buckets": [
+  //   {
+  //     "binding": "MY_BUCKET",
+  //     "bucket_name": "my-bucket"
+  //   }
+  // ],
+
+  // Uncomment and add your D1 database if needed
+  // "d1_databases": [
+  //   {
+  //     "binding": "MY_DB",
+  //     "database_name": "my-database",
+  //     "database_id": ""
+  //   }
+  // ],
+
+  // Uncomment if using Workers AI
+  // "ai": {
+  //   "binding": "AI"
+  // },
+
+  // Enable observability features
+  // "observability": {
+  //   "enabled": true,
+  //   "head_sampling_rate": 1
+  // }
+}
