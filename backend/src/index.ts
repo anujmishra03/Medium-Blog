@@ -1,8 +1,9 @@
 import { Hono } from "hono";
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+
 import { userRouter } from "./routes/user";
 import { blogRouter } from "./routes/blog";
+import { cors } from "hono/cors";
+
 
 // Create the main Hono app
 const app = new Hono<{
@@ -12,6 +13,11 @@ const app = new Hono<{
 	}
 }>();
 
+app.use('/*', cors({
+  origin: '*', // or restrict to 'http://localhost:5173'
+  allowHeaders: ['Content-Type', 'Authorization'],
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+}))
 
 app.route("/api/v1/user" ,userRouter);
 app.route("/api/v1/blog" ,blogRouter);

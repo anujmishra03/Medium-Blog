@@ -10,8 +10,8 @@
   // ],
 
   "vars": {
-    "DATABASE_URL": "",
-    "JWT_SECRET": ""
+    "DATABASE_URL": "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiNzcwOThmMmYtNjdkNi00YTkzLTg5ZDgtMWZjNjc5ZjY2OTg0IiwidGVuYW50X2lkIjoiZjQ3YjY5N2U0NDEzMGJkM2Q2NDU1YjBlZDZjODBjODJmNzQ3NjU2Y2Y1ZTE5N2QzNDkyZWMyNDA0NmE4MzQ4YyIsImludGVybmFsX3NlY3JldCI6IjZlYTQ4NTJjLWZhMTEtNGM2Ni04NjhmLWRmOTA2ZTVhZjg4MiJ9.-E6EKiCiULmLNBVbsHQG-biT0zGfnxBhgdYZqowmZ_U",
+    "JWT_SECRET": "your-secret-key"
   },
 
   // Uncomment and add your KV namespace if needed

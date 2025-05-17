@@ -15,10 +15,14 @@ export const blogRouter = new Hono<{
   };
 }>();
 
+
+// Authorization
 blogRouter.use("/*", async (c, next) => {
   const authHeader = c.req.header("authorization") || "";
+  const token = authHeader.replace("Bearer ", "").trim(); // 👈 extract token only
+
   try {
-    const user = await verify(authHeader, c.env.JWT_SECRET);
+    const user = await verify(token, c.env.JWT_SECRET);
     if (user) {
       c.set("userId", user.id);
       await next();
@@ -32,6 +36,8 @@ blogRouter.use("/*", async (c, next) => {
   }
 });
 
+
+// cretae a blog
 blogRouter.post("/", async (c) => {
   const body = await c.req.json();
 
@@ -58,6 +64,8 @@ blogRouter.post("/", async (c) => {
   });
 });
 
+
+// update a blog
 blogRouter.put("/", async (c) => {
   const body = await c.req.json();
 
@@ -86,18 +94,31 @@ blogRouter.put("/", async (c) => {
 });
 
 //   Todo: Pagination
+// all blogs
 blogRouter.get("/bulk", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
 
-  const blogs = await prisma.blog.findMany();
+  const blogs = await prisma.blog.findMany({
+    select:{
+      content: true,
+      title:true,
+      id: true,
+      author:{
+        select:{
+          name: true 
+        }
+      }
+    }
+  });
 
   return c.json({
     blogs,
   });
 });
 
+// blog by id
 blogRouter.get("/:id", async (c) => {
   const id = c.req.param("id");
   const prisma = new PrismaClient({
@@ -109,6 +130,16 @@ blogRouter.get("/:id", async (c) => {
       where: {
         id: Number(id),
       },
+      select:{
+        id: true,
+        title: true,
+        content: true,
+        author:{
+          select:{
+            name: true
+          }
+        }
+      }
     });
 
     return c.json({
