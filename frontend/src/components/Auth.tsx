@@ -2,10 +2,8 @@ import { type ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { Spinner } from "./Spinner";
 
-
-// ✅ Fixed BACKEND_URL
-// const BACKEND_URL = "https://backend.dailywrites.workers.dev";
 
 interface SignupInput {
   name?: string;
@@ -21,7 +19,10 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     ...(type === "signup" ? { name: "" } : {})
   });
 
+  const [loading, setLoading] = useState(false);
+
   const sendRequest = async () => {
+    setLoading(true);
     try {
       const url = `${BACKEND_URL}/api/v1/user/${type}`;
       const response = await axios.post(url, postInputs);
@@ -32,6 +33,8 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     } catch (err: any) {
       console.error("Auth error:", err?.response?.data || err.message);
       alert("Failed to authenticate. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,9 +92,10 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition"
+          className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition flex justify-center items-center"
+          disabled={loading}
         >
-          {type === "signup" ? "Sign Up" : "Sign In"}
+          {loading ? <Spinner /> : (type === "signup" ? "Sign Up" : "Sign In")}
         </button>
       </div>
     </div>
